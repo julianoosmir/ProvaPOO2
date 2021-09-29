@@ -2,7 +2,10 @@ package telas.resourse;
 
 import models.Didatico;
 import java.util.List;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 public class TabelaLivrosDidaticos extends ViewAbstractTableModel<Didatico>{
     public TabelaLivrosDidaticos(List<Didatico> rows) {
         super(rows);

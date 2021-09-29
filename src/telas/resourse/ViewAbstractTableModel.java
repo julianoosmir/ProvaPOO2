@@ -2,7 +2,10 @@ package telas.resourse;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 public abstract class ViewAbstractTableModel<E> extends AbstractTableModel{
 
     protected List<E> rows;
