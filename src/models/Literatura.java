@@ -12,7 +12,7 @@ public class Literatura extends Livro {
     }
 
     @Override
-    void calcularTributacao() {
-
+    public void calcularTributacao() {
+        setTributacao((getPrecoCusto() * 1.12) + 2);
     }
 }

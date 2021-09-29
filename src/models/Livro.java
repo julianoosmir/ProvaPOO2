@@ -3,7 +3,8 @@ package models;
 import java.util.UUID;
 
 abstract class Livro {
-    private UUID codigo;
+    private Integer codigo;
+
     private Autor autor;
     private Double precoCusto;
     private Double precoVenda;
@@ -11,6 +12,14 @@ abstract class Livro {
     private Double tributacao;
 
     abstract void calcularTributacao();
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
 
     public Autor getAutor() {
         return autor;
