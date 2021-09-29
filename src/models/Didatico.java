@@ -26,6 +26,6 @@ public class Didatico extends Livro {
 
     @Override
     public void calcularTributacao() {
-        this.setTributacao(getPrecoCusto() * 1.03);
+        this.setTributacao(getPrecoCusto() * 0.03);
     }
 }
