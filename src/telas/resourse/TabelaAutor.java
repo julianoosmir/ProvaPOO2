@@ -1,11 +1,11 @@
 package telas.resourse;
 
-import models.Autor;
+import models.Autor_Julianoosmir;
 
 import java.util.List;
 
-public class TabelaAutor extends ViewAbstractTableModel<Autor>{
-    public TabelaAutor(List<Autor> rows) {
+public class TabelaAutor extends ViewAbstractTableModel<Autor_Julianoosmir>{
+    public TabelaAutor(List<Autor_Julianoosmir> rows) {
         super(rows);
         columns = new String[]{
                 "nome", "data de Nacimento",
@@ -16,12 +16,12 @@ public class TabelaAutor extends ViewAbstractTableModel<Autor>{
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Autor autor =  rows.get(rowIndex);
+        Autor_Julianoosmir autorJulianoosmir =  rows.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return autor.getNome();
+                return autorJulianoosmir.getNome();
             case 1:
-                return autor.getDataNascimento();
+                return autorJulianoosmir.getDataNascimento();
             default:
                 return null;
         }

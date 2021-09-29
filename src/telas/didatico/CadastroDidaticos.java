@@ -1,7 +1,7 @@
 package telas.didatico;
 
-import banco.Banco;
-import models.Autor;
+import banco.Banco_Julianoosmir;
+import models.Autor_Julianoosmir;
 import models.Didatico;
 import telas.resourse.TabelaLivrosDidaticos;
 
@@ -32,11 +32,11 @@ public class CadastroDidaticos extends JPanel {
     List<String> niveis = new ArrayList<String>(List.of("fundamental", "medio", "superior"));
     List<Integer> series = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    public CadastroDidaticos(Banco banco) {
+    public CadastroDidaticos(Banco_Julianoosmir bancoJulianoosmir) {
         setSize(1200, 600);
         jLabel = new JLabel("Cadastrar Livros didaticos");
         add(jLabel);
-        tabelaLivrosDidaticos = new TabelaLivrosDidaticos(banco.getDidaticos());
+        tabelaLivrosDidaticos = new TabelaLivrosDidaticos(bancoJulianoosmir.getDidaticos());
         jTable = new JTable(tabelaLivrosDidaticos);
         jTable.setPreferredScrollableViewportSize(new Dimension(1200, 100));
         add(new JScrollPane(jTable));
@@ -44,7 +44,7 @@ public class CadastroDidaticos extends JPanel {
         botaoAdd.setBounds(500, 340, 100, 20);
         botaoAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                inserir(banco, tabelaLivrosDidaticos);
+                inserir(bancoJulianoosmir, tabelaLivrosDidaticos);
             }
         });
         botaoUp = new JButton("atualizar");
@@ -53,7 +53,7 @@ public class CadastroDidaticos extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer codigo = Integer.parseInt(JOptionPane.showInputDialog("digite codigo"));
-                atualizar(codigo, banco, tabelaLivrosDidaticos);
+                atualizar(codigo, bancoJulianoosmir, tabelaLivrosDidaticos);
             }
         });
         add(botaoAdd);
@@ -61,15 +61,15 @@ public class CadastroDidaticos extends JPanel {
 
     }
 
-    public void atualizar(Integer codigo, Banco banco, TabelaLivrosDidaticos tabela) {
-        didatico = banco.getDidaticos().get(codigo -1);
+    public void atualizar(Integer codigo, Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosDidaticos tabela) {
+        didatico = bancoJulianoosmir.getDidaticos().get(codigo -1);
         JDialog jdialog = new JDialog();
         jdialog.setSize(1250, 100);
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         autor = new JComboBox();
-        banco.getAutors().forEach(x -> autor.addItem(x.getNome()));
+        bancoJulianoosmir.getAutors().forEach(x -> autor.addItem(x.getNome()));
         jdialog.add(autor);
         jdialog.add(new JLabel("Preço de custo :"));
         precocusto = new JTextField(10);
@@ -115,7 +115,7 @@ public class CadastroDidaticos extends JPanel {
                 String valorPorcentual = porcentual.getText().length() == 0 ? "0" :  porcentual.getText();
                 atulizarDidatico(nomeAutor, Double.parseDouble(precocusto.getText()),
                         Integer.parseInt(valorPorcentual), Integer.parseInt(qtdpag.getText()),
-                        banco, tabela, nivel, Integer.parseInt(series), codigo - 1);
+                        bancoJulianoosmir, tabela, nivel, Integer.parseInt(series), codigo - 1);
 
                 jdialog.dispose();
             }
@@ -131,9 +131,9 @@ public class CadastroDidaticos extends JPanel {
         jdialog.setVisible(true);
     }
     private void atulizarDidatico(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas,
-                                  Banco banco, TabelaLivrosDidaticos tabela, String nivel, int series, Integer codigo) {
-        didatico = banco.getDidaticos().get(codigo);
-        didatico.setAutor(new Autor(nomeAutor, null));
+                                  Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosDidaticos tabela, String nivel, int series, Integer codigo) {
+        didatico = bancoJulianoosmir.getDidaticos().get(codigo);
+        didatico.setAutor(new Autor_Julianoosmir(nomeAutor, null));
         didatico.setQtdPaginas(qtdpaginas);
         didatico.setPrecoCusto(precoCusto);
         didatico.calcularTributacao();
@@ -145,14 +145,14 @@ public class CadastroDidaticos extends JPanel {
         tabela.fireTableDataChanged();
     }
 
-    private void inserir(Banco banco, TabelaLivrosDidaticos tabela) {
+    private void inserir(Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosDidaticos tabela) {
         JDialog jdialog = new JDialog();
         jdialog.setSize(1250, 100);
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         autor = new JComboBox();
-        banco.getAutors().forEach(x -> autor.addItem(x.getNome()));
+        bancoJulianoosmir.getAutors().forEach(x -> autor.addItem(x.getNome()));
         jdialog.add(autor);
         jdialog.add(new JLabel("Preço de custo :"));
         precocusto = new JTextField(10);
@@ -200,7 +200,7 @@ public class CadastroDidaticos extends JPanel {
                 String series = comboBoxSeries.getSelectedItem().toString();
                 criarDidatico(nomeAutor, Double.parseDouble(precocusto.getText()),
                         Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
-                        banco, tabela, nivel, Integer.parseInt(series));
+                        bancoJulianoosmir, tabela, nivel, Integer.parseInt(series));
                 jdialog.dispose();
                 jdialog.removeAll();
             }
@@ -218,11 +218,11 @@ public class CadastroDidaticos extends JPanel {
     }
 
     private void criarDidatico(String nomeAutor, Double precoCusto, Integer porcentual,
-                               Integer qtdpaginas, Banco banco, TabelaLivrosDidaticos tabela, String nivel, int series) {
+                               Integer qtdpaginas, Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosDidaticos tabela, String nivel, int series) {
 
         didatico = new Didatico();
-        didatico.setCodigo(banco.getDidaticos().size() + 1);
-        didatico.setAutor(new Autor(nomeAutor, null));
+        didatico.setCodigo(bancoJulianoosmir.getDidaticos().size() + 1);
+        didatico.setAutor(new Autor_Julianoosmir(nomeAutor, null));
         didatico.setQtdPaginas(qtdpaginas);
         didatico.setPrecoCusto(precoCusto);
         didatico.calcularTributacao();
@@ -232,7 +232,7 @@ public class CadastroDidaticos extends JPanel {
         didatico.setPrecoVenda(
                 (didatico.getPrecoCusto() + didatico.getTributacao()) + ((porcentual / 100) * (didatico.getPrecoCusto() + didatico.getTributacao()))
         );
-        banco.setDidaticos(didatico);
+        bancoJulianoosmir.setDidaticos(didatico);
         tabela.fireTableDataChanged();
     }
 }

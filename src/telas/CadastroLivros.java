@@ -1,6 +1,6 @@
 package telas;
 
-import banco.Banco;
+import banco.Banco_Julianoosmir;
 import telas.autor.CadastroAutor;
 import telas.didatico.CadastroDidaticos;
 import telas.literatura.CadastroLiteratura;
@@ -13,16 +13,16 @@ public class CadastroLivros extends JFrame {
     CadastroAutor cadastroAutor;
     CadastroDidaticos cadastroDidaticos;
 
-    public CadastroLivros(Banco banco) {
+    public CadastroLivros(Banco_Julianoosmir bancoJulianoosmir) {
         setTitle("Cadastro de livros");
         setSize(1200,600);
         setLocationRelativeTo(null);
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        cadastroLiteratura = new CadastroLiteratura(banco);
-        cadastroAutor = new CadastroAutor(banco);
-        cadastroDidaticos = new CadastroDidaticos(banco);
+        cadastroLiteratura = new CadastroLiteratura(bancoJulianoosmir);
+        cadastroAutor = new CadastroAutor(bancoJulianoosmir);
+        cadastroDidaticos = new CadastroDidaticos(bancoJulianoosmir);
 
         container.add(cadastroAutor);
         container.add(cadastroDidaticos);

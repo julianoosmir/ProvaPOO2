@@ -2,15 +2,15 @@ package models;
 
 import java.time.LocalDate;
 
-public class Autor {
+public class Autor_Julianoosmir {
     private String nome;
     private LocalDate dataNascimento;
 
-    public Autor() {
+    public Autor_Julianoosmir() {
     }
 
 
-    public Autor(String nome, LocalDate dataNascimento) {
+    public Autor_Julianoosmir(String nome, LocalDate dataNascimento) {
         this.nome = nome;
         this.dataNascimento = dataNascimento;
     }

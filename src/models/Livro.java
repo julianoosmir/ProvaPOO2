@@ -3,7 +3,7 @@ package models;
 abstract class Livro {
     private Integer codigo;
 
-    private Autor autor;
+    private Autor_Julianoosmir autorJulianoosmir;
     private Double precoCusto;
     private Double precoVenda;
     private Integer qtdPaginas;
@@ -19,12 +19,12 @@ abstract class Livro {
         this.codigo = codigo;
     }
 
-    public Autor getAutor() {
-        return autor;
+    public Autor_Julianoosmir getAutor() {
+        return autorJulianoosmir;
     }
 
-    public void setAutor(Autor autor) {
-        this.autor = autor;
+    public void setAutor(Autor_Julianoosmir autorJulianoosmir) {
+        this.autorJulianoosmir = autorJulianoosmir;
     }
 
     public Double getPrecoCusto() {

@@ -1,7 +1,7 @@
 package telas.literatura;
 
-import banco.Banco;
-import models.Autor;
+import banco.Banco_Julianoosmir;
+import models.Autor_Julianoosmir;
 import models.Literatura;
 import telas.resourse.TabelaLivrosLiteratura;
 import javax.swing.*;
@@ -24,11 +24,11 @@ public class CadastroLiteratura extends JPanel {
     private JTable jTable;
     private Literatura literatura;
 
-    public CadastroLiteratura(Banco banco) {
+    public CadastroLiteratura(Banco_Julianoosmir bancoJulianoosmir) {
         setSize(1200, 600);
         jLabel = new JLabel("Cadastrar Livros de Literatura");
         add(jLabel);
-        tabelaLivrosLiteratura = new TabelaLivrosLiteratura(banco.getLiteraturas());
+        tabelaLivrosLiteratura = new TabelaLivrosLiteratura(bancoJulianoosmir.getLiteraturas());
         jTable = new JTable(tabelaLivrosLiteratura);
         jTable.setPreferredScrollableViewportSize(new Dimension(1200, 100));
         add(new JScrollPane(jTable));
@@ -36,7 +36,7 @@ public class CadastroLiteratura extends JPanel {
         botaoAdd.setBounds(500, 340, 100, 20);
         botaoAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                inserir(banco, tabelaLivrosLiteratura);
+                inserir(bancoJulianoosmir, tabelaLivrosLiteratura);
             }
         });
 
@@ -46,7 +46,7 @@ public class CadastroLiteratura extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer codigo = Integer.parseInt(JOptionPane.showInputDialog("digite codigo"));
-                atualizar(codigo, banco, tabelaLivrosLiteratura);
+                atualizar(codigo, bancoJulianoosmir, tabelaLivrosLiteratura);
             }
         });
 
@@ -54,16 +54,16 @@ public class CadastroLiteratura extends JPanel {
         add(botaoUp);
     }
 
-    private void atualizar(Integer codigo, Banco banco, TabelaLivrosLiteratura tabela) {
+    private void atualizar(Integer codigo, Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosLiteratura tabela) {
 
-        literatura = banco.getLiteraturas().get(codigo - 1);
+        literatura = bancoJulianoosmir.getLiteraturas().get(codigo - 1);
         JDialog jdialog = new JDialog();
         jdialog.setSize(1250, 100);
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         jComboBox = new JComboBox();
-        banco.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
+        bancoJulianoosmir.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
         jdialog.add(jComboBox);
         jdialog.add(new JLabel("Preço de custo :"));
         precocusto = new JTextField(10);
@@ -91,7 +91,7 @@ public class CadastroLiteratura extends JPanel {
                 String valorPorcentual = porcentual.getText().length() == 0 ? "0" :  porcentual.getText();
                 atualizarItem(nomeAutor, Double.parseDouble(precocusto.getText()),
                         Integer.parseInt(valorPorcentual), Integer.parseInt(qtdpag.getText()),
-                        genero.getText(), banco, tabela, codigo - 1);
+                        genero.getText(), bancoJulianoosmir, tabela, codigo - 1);
                 jdialog.dispose();
             }
         });
@@ -108,9 +108,9 @@ public class CadastroLiteratura extends JPanel {
     }
 
     private void atualizarItem(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
-                               Banco banco, TabelaLivrosLiteratura tabela, int codigo) {
-        literatura = banco.getLiteraturas().get(codigo);
-        literatura.setAutor(new Autor(nomeAutor, null));
+                               Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosLiteratura tabela, int codigo) {
+        literatura = bancoJulianoosmir.getLiteraturas().get(codigo);
+        literatura.setAutor(new Autor_Julianoosmir(nomeAutor, null));
         literatura.setGenero(genero);
         literatura.setQtdPaginas(qtdpaginas);
         literatura.setPrecoCusto(precoCusto);
@@ -124,7 +124,7 @@ public class CadastroLiteratura extends JPanel {
         tabela.fireTableDataChanged();
     }
 
-    public void inserir(Banco banco, TabelaLivrosLiteratura tabela) {
+    public void inserir(Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosLiteratura tabela) {
 
         JDialog jdialog = new JDialog();
         jdialog.setSize(1250, 100);
@@ -132,7 +132,7 @@ public class CadastroLiteratura extends JPanel {
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         jComboBox = new JComboBox();
-        banco.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
+        bancoJulianoosmir.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
         jdialog.add(jComboBox);
         jdialog.add(new JLabel("Preço de custo :"));
         precocusto = new JTextField(10);
@@ -155,7 +155,7 @@ public class CadastroLiteratura extends JPanel {
                 String nomeAutor = jComboBox.getSelectedItem().toString();
                 criarLiteratura(nomeAutor, Double.parseDouble(precocusto.getText()),
                         Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
-                        genero.getText(), banco, tabela);
+                        genero.getText(), bancoJulianoosmir, tabela);
                 jdialog.dispose();
             }
         });
@@ -173,10 +173,10 @@ public class CadastroLiteratura extends JPanel {
 
 
     public void criarLiteratura(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
-                                Banco banco, TabelaLivrosLiteratura tabela) {
+                                Banco_Julianoosmir bancoJulianoosmir, TabelaLivrosLiteratura tabela) {
         literatura = new Literatura();
-        literatura.setCodigo(banco.getLiteraturas().size() + 1);
-        literatura.setAutor(new Autor(nomeAutor, null));
+        literatura.setCodigo(bancoJulianoosmir.getLiteraturas().size() + 1);
+        literatura.setAutor(new Autor_Julianoosmir(nomeAutor, null));
         literatura.setGenero(genero);
         literatura.setQtdPaginas(qtdpaginas);
         literatura.setPrecoCusto(precoCusto);
@@ -186,7 +186,7 @@ public class CadastroLiteratura extends JPanel {
                 (literatura.getPrecoCusto() + literatura.getTributacao()) +
                         (porcentual / 100) * (literatura.getPrecoCusto() + literatura.getTributacao())
         );
-        banco.setLiteraturas(literatura);
+        bancoJulianoosmir.setLiteraturas(literatura);
         tabela.fireTableDataChanged();
 
     }
