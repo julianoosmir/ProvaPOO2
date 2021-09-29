@@ -18,15 +18,15 @@ public class CadastroDidaticos extends JPanel {
     private JButton botaoAdd;
     private JButton botaoUp;
     private JLabel jLabel;
-    private JTextField precocusto = new JTextField(10);
-    private JTextField qtdpag = new JTextField(10);
-    private JTextField porcentual = new JTextField(20);
-    private JComboBox autor = new JComboBox();
-    private JComboBox comboBoxNivel = new JComboBox();
-    private JComboBox comboBoxSeries = new JComboBox();
+    private JTextField precocusto;
+    private JTextField qtdpag;
+    private JTextField porcentual;
+    private JComboBox autor;
+    private JComboBox comboBoxNivel;
+    private JComboBox comboBoxSeries;
     private TabelaLivrosDidaticos tabelaLivrosDidaticos;
     private JTable jTable;
-    private Didatico didatico = new Didatico();
+    private Didatico didatico;
 
 
     List<String> niveis = new ArrayList<String>(List.of("fundamental", "medio", "superior"));
@@ -68,17 +68,22 @@ public class CadastroDidaticos extends JPanel {
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
+        autor = new JComboBox();
         banco.getAutors().forEach(x -> autor.addItem(x.getNome()));
         jdialog.add(autor);
         jdialog.add(new JLabel("Preço de custo :"));
+        precocusto = new JTextField(10);
         precocusto.setText(didatico.getPrecoCusto().toString());
         jdialog.add(precocusto);
         jdialog.add(new JLabel("quantidade paginas :"));
+        qtdpag = new JTextField(10);
         qtdpag.setText(didatico.getQtdPaginas().toString());
         jdialog.add(qtdpag);
         jdialog.add(new JLabel("porcentual :"));
+        porcentual = new JTextField(10);
         jdialog.add(porcentual);
         jdialog.add(new JLabel("nivels :"));
+        comboBoxNivel = new JComboBox();
         niveis.forEach(x -> comboBoxNivel.addItem(x));
         comboBoxNivel.addActionListener(new ActionListener() {
             @Override
@@ -95,21 +100,21 @@ public class CadastroDidaticos extends JPanel {
         });
         jdialog.add(comboBoxNivel);
         jdialog.add(new JLabel("serie :"));
+        comboBoxSeries = new JComboBox();
         series.forEach(x -> comboBoxSeries.addItem(x.toString()));
         jdialog.add(comboBoxSeries);
         JButton salvar = new JButton("Salvar");
         JButton sair = new JButton("Sair");
-        String nomeAutor = autor.getSelectedItem().toString();
-        String nivel = comboBoxNivel.getSelectedItem().toString();
-        String series = comboBoxSeries.getSelectedItem().toString();
+
         salvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nomeAutor = autor.getSelectedItem().toString();
                 String nivel = comboBoxNivel.getSelectedItem().toString();
                 String series = comboBoxSeries.getSelectedItem().toString();
+                String valorPorcentual = porcentual.getText().length() == 0 ? "0" :  porcentual.getText();
                 atulizarDidatico(nomeAutor, Double.parseDouble(precocusto.getText()),
-                        Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
+                        Integer.parseInt(valorPorcentual), Integer.parseInt(qtdpag.getText()),
                         banco, tabela, nivel, Integer.parseInt(series), codigo - 1);
 
                 jdialog.dispose();
@@ -127,7 +132,7 @@ public class CadastroDidaticos extends JPanel {
     }
     private void atulizarDidatico(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas,
                                   Banco banco, TabelaLivrosDidaticos tabela, String nivel, int series, Integer codigo) {
-        Didatico didatico = banco.getDidaticos().get(codigo);
+        didatico = banco.getDidaticos().get(codigo);
         didatico.setAutor(new Autor(nomeAutor, null));
         didatico.setQtdPaginas(qtdpaginas);
         didatico.setPrecoCusto(precoCusto);
@@ -146,15 +151,20 @@ public class CadastroDidaticos extends JPanel {
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
+        autor = new JComboBox();
         banco.getAutors().forEach(x -> autor.addItem(x.getNome()));
         jdialog.add(autor);
         jdialog.add(new JLabel("Preço de custo :"));
+        precocusto = new JTextField(10);
         jdialog.add(precocusto);
         jdialog.add(new JLabel("quantidade paginas :"));
+        qtdpag = new JTextField(10);
         jdialog.add(qtdpag);
         jdialog.add(new JLabel("porcentual :"));
+        porcentual = new JTextField(10);
         jdialog.add(porcentual);
         jdialog.add(new JLabel("nivels :"));
+        comboBoxNivel = new JComboBox();
         niveis.forEach(x -> comboBoxNivel.addItem(x));
         comboBoxNivel.addActionListener(new ActionListener() {
             @Override
@@ -171,6 +181,7 @@ public class CadastroDidaticos extends JPanel {
         });
         jdialog.add(comboBoxNivel);
         jdialog.add(new JLabel("serie :"));
+        comboBoxSeries = new JComboBox();
         series.forEach(x -> comboBoxSeries.addItem(x.toString()));
         jdialog.add(comboBoxSeries);
 

@@ -84,12 +84,14 @@ public class CadastroLiteratura extends JPanel {
         JButton salvar = new JButton("Salvar");
         JButton sair = new JButton("Sair");
 
+
         salvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nomeAutor = jComboBox.getSelectedItem().toString();
+                String valorPorcentual = porcentual.getText().length() == 0 ? "0" :  porcentual.getText();
                 atualizarItem(nomeAutor, Double.parseDouble(precocusto.getText()),
-                        Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
+                        Integer.parseInt(valorPorcentual), Integer.parseInt(qtdpag.getText()),
                         genero.getText(), banco, tabela, codigo - 1);
                 jdialog.dispose();
             }
