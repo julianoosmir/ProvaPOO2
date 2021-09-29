@@ -2,6 +2,7 @@ package telas;
 
 import banco.Banco;
 import telas.autor.CadastroAutor;
+import telas.didatico.CadastroDidaticos;
 import telas.literatura.CadastroLiteratura;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class CadastroLivros extends JFrame {
 
     CadastroLiteratura cadastroLiteratura;
     CadastroAutor cadastroAutor;
+    CadastroDidaticos cadastroDidaticos;
 
     public CadastroLivros(Banco banco) {
         setTitle("Cadastro de livros");
@@ -20,18 +22,13 @@ public class CadastroLivros extends JFrame {
 
         cadastroLiteratura = new CadastroLiteratura(banco);
         cadastroAutor = new CadastroAutor(banco);
-
+        cadastroDidaticos = new CadastroDidaticos(banco);
 
         container.add(cadastroAutor);
-
+        container.add(cadastroDidaticos);
         container.add(cadastroLiteratura);
 
-
         this.setContentPane(container);
-
-//        this.setContentPane(cadastroAutor);
-//        this.setContentPane(cadastroLiteratura);
-
         this.setResizable(false);
     }
 

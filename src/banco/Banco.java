@@ -1,6 +1,7 @@
 package banco;
 
 import models.Autor;
+import models.Didatico;
 import models.Literatura;
 
 import java.io.Serializable;
@@ -11,10 +12,12 @@ public class Banco implements Serializable {
 
     private List<Autor> autors;
     private List<Literatura> literaturas;
+    private List<Didatico> didaticos;
 
     public Banco() {
         this.autors =  new ArrayList();
         this.literaturas = new ArrayList<>();
+        this.didaticos = new ArrayList<>();
     }
 
     public void setAutor(Autor autor){
@@ -31,5 +34,12 @@ public class Banco implements Serializable {
 
     public List<Literatura> getLiteraturas() {
         return literaturas;
+    }
+
+    public List<Didatico> getDidaticos() {
+        return didaticos;
+    }
+    public void setDidaticos(Didatico didatico){
+        this.didaticos.add(didatico);
     }
 }

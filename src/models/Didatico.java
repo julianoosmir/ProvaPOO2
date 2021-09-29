@@ -2,11 +2,30 @@ package models;
 
 public class Didatico extends Livro {
 
-    private Integer nivel;
+    private String nivel;
     private Integer serie;
 
-    @Override
-    void calcularTributacao() {
+    public Didatico() {
+    }
 
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public Integer getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Integer serie) {
+        this.serie = serie;
+    }
+
+    @Override
+    public void calcularTributacao() {
+        this.setTributacao(getPrecoCusto() * 1.03);
     }
 }

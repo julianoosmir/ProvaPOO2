@@ -25,10 +25,7 @@ public class CadastroLiteratura extends JPanel {
     private JTable jTable;
     private Literatura literatura = new Literatura();
 
-
     public CadastroLiteratura(Banco banco) {
-
-
         setSize(1200, 600);
         jLabel = new JLabel("Cadastrar Livros de Literatura");
         add(jLabel);
@@ -36,7 +33,7 @@ public class CadastroLiteratura extends JPanel {
         jTable = new JTable(tabelaLivrosLiteratura);
         jTable.setPreferredScrollableViewportSize(new Dimension(1200, 100));
         add(new JScrollPane(jTable));
-        botaoAdd = new JButton("adiconar livro literatura");
+        botaoAdd = new JButton("adicionar livro literatura");
         botaoAdd.setBounds(500, 340, 100, 20);
         botaoAdd.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,15 +47,74 @@ public class CadastroLiteratura extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Integer codigo = Integer.parseInt(JOptionPane.showInputDialog("digite codigo"));
-                atualizar(codigo,banco,tabelaLivrosLiteratura);
+                atualizar(codigo, banco, tabelaLivrosLiteratura);
             }
         });
 
         add(botaoAdd);
+        add(botaoUp);
     }
 
-    private void atualizar(Integer codigo, Banco banco, TabelaLivrosLiteratura tabelaLivrosLiteratura) {
+    private void atualizar(Integer codigo, Banco banco, TabelaLivrosLiteratura tabela) {
+        Literatura literatura = banco.getLiteraturas().get(codigo - 1);
 
+        JDialog jdialog = new JDialog();
+        jdialog.setSize(1200, 100);
+        jdialog.setLayout(new FlowLayout());
+        jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        jdialog.add(new JLabel("Autor :"));
+        jComboBox = new JComboBox();
+        banco.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
+
+        jdialog.add(jComboBox);
+        jdialog.add(new JLabel("Preço de custo :"));
+        precocusto.setText(literatura.getPrecoCusto().toString());
+        jdialog.add(precocusto);
+        jdialog.add(new JLabel("quantidade paginas :"));
+        qtdpag.setText(literatura.getQtdPaginas().toString());
+        jdialog.add(qtdpag);
+        jdialog.add(new JLabel("genero :"));
+        jdialog.add(genero);
+        jdialog.add(new JLabel("porcentual :"));
+        jdialog.add(porcentual);
+        JButton salvar = new JButton("Salvar");
+        JButton sair = new JButton("Sair");
+
+        salvar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nomeAutor = jComboBox.getSelectedItem().toString();
+                atualizarItem(nomeAutor, Double.parseDouble(precocusto.getText()),
+                        Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
+                        genero.getText(), banco, tabela, codigo - 1);
+                jdialog.dispose();
+            }
+        });
+
+        sair.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jdialog.dispose();
+            }
+        });
+        jdialog.add(salvar);
+        jdialog.add(sair);
+        jdialog.setVisible(true);
+    }
+
+    private void atualizarItem(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
+                               Banco banco, TabelaLivrosLiteratura tabela, int codigo) {
+        Literatura literatura = banco.getLiteraturas().get(codigo);
+        literatura.setAutor(new Autor(nomeAutor, null));
+        literatura.setGenero(genero);
+        literatura.setQtdPaginas(qtdpaginas);
+        literatura.setPrecoCusto(precoCusto);
+        literatura.calcularTributacao();
+        literatura.setPrecoVenda(
+                (this.literatura.getPrecoCusto() + this.literatura.getTributacao()) +
+                        (porcentual / 100) * (this.literatura.getPrecoCusto() + this.literatura.getTributacao())
+        );
+        tabela.fireTableDataChanged();
     }
 
     public void inserir(Banco banco, TabelaLivrosLiteratura tabela) {
@@ -83,11 +139,12 @@ public class CadastroLiteratura extends JPanel {
         JButton salvar = new JButton("Salvar");
         JButton sair = new JButton("Sair");
 
-        String nomeAutor = jComboBox.getSelectedItem().toString();
+
         salvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CriarLiteratura(nomeAutor, Double.parseDouble(precocusto.getText()),
+                String nomeAutor = jComboBox.getSelectedItem().toString();
+                criarLiteratura(nomeAutor, Double.parseDouble(precocusto.getText()),
                         Integer.parseInt(porcentual.getText()), Integer.parseInt(qtdpag.getText()),
                         genero.getText(), banco, tabela);
                 jdialog.dispose();
@@ -105,7 +162,8 @@ public class CadastroLiteratura extends JPanel {
         jdialog.setVisible(true);
     }
 
-    public void CriarLiteratura(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
+
+    public void criarLiteratura(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
                                 Banco banco, TabelaLivrosLiteratura tabela) {
 
         this.literatura.setCodigo(banco.getLiteraturas().size() + 1);
@@ -119,12 +177,8 @@ public class CadastroLiteratura extends JPanel {
                 (this.literatura.getPrecoCusto() + this.literatura.getTributacao()) +
                         (porcentual / 100) * (this.literatura.getPrecoCusto() + this.literatura.getTributacao())
         );
-
         banco.setLiteraturas(this.literatura);
-
-
         tabela.fireTableDataChanged();
-
 
     }
 }
