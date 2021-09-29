@@ -4,7 +4,6 @@ import banco.Banco;
 import models.Autor;
 import models.Literatura;
 import telas.resourse.TabelaLivrosLiteratura;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
