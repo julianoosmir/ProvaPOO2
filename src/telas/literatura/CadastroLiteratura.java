@@ -16,14 +16,14 @@ public class CadastroLiteratura extends JPanel {
     private JButton botaoAdd;
     private JButton botaoUp;
     private JLabel jLabel;
-    private JTextField precocusto = new JTextField(10);
-    private JTextField qtdpag = new JTextField(10);
-    private JTextField genero = new JTextField(20);
-    private JTextField porcentual = new JTextField(20);
+    private JTextField precocusto;
+    private JTextField qtdpag;
+    private JTextField genero;
+    private JTextField porcentual;
     private JComboBox jComboBox;
     private TabelaLivrosLiteratura tabelaLivrosLiteratura;
     private JTable jTable;
-    private Literatura literatura = new Literatura();
+    private Literatura literatura;
 
     public CadastroLiteratura(Banco banco) {
         setSize(1200, 600);
@@ -56,26 +56,30 @@ public class CadastroLiteratura extends JPanel {
     }
 
     private void atualizar(Integer codigo, Banco banco, TabelaLivrosLiteratura tabela) {
-        Literatura literatura = banco.getLiteraturas().get(codigo - 1);
 
+        literatura = banco.getLiteraturas().get(codigo - 1);
         JDialog jdialog = new JDialog();
-        jdialog.setSize(1200, 100);
+        jdialog.setSize(1250, 100);
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         jComboBox = new JComboBox();
         banco.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
-
         jdialog.add(jComboBox);
         jdialog.add(new JLabel("Preço de custo :"));
+        precocusto = new JTextField(10);
         precocusto.setText(literatura.getPrecoCusto().toString());
         jdialog.add(precocusto);
         jdialog.add(new JLabel("quantidade paginas :"));
+        qtdpag = new JTextField(10);
         qtdpag.setText(literatura.getQtdPaginas().toString());
         jdialog.add(qtdpag);
         jdialog.add(new JLabel("genero :"));
+        genero = new JTextField(10);
+        genero.setText(literatura.getGenero().toString());
         jdialog.add(genero);
         jdialog.add(new JLabel("porcentual :"));
+        porcentual = new JTextField(10);
         jdialog.add(porcentual);
         JButton salvar = new JButton("Salvar");
         JButton sair = new JButton("Sair");
@@ -104,41 +108,45 @@ public class CadastroLiteratura extends JPanel {
 
     private void atualizarItem(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
                                Banco banco, TabelaLivrosLiteratura tabela, int codigo) {
-        Literatura literatura = banco.getLiteraturas().get(codigo);
+        literatura = banco.getLiteraturas().get(codigo);
         literatura.setAutor(new Autor(nomeAutor, null));
         literatura.setGenero(genero);
         literatura.setQtdPaginas(qtdpaginas);
         literatura.setPrecoCusto(precoCusto);
         literatura.calcularTributacao();
-        literatura.setPrecoVenda(
-                (this.literatura.getPrecoCusto() + this.literatura.getTributacao()) +
-                        (porcentual / 100) * (this.literatura.getPrecoCusto() + this.literatura.getTributacao())
-        );
+        if (porcentual > 0) {
+            literatura.setPrecoVenda(
+                    (literatura.getPrecoCusto() + literatura.getTributacao()) +
+                            (porcentual / 100) * (literatura.getPrecoCusto() + literatura.getTributacao())
+            );
+        }
         tabela.fireTableDataChanged();
     }
 
     public void inserir(Banco banco, TabelaLivrosLiteratura tabela) {
 
         JDialog jdialog = new JDialog();
-        jdialog.setSize(1200, 100);
+        jdialog.setSize(1250, 100);
         jdialog.setLayout(new FlowLayout());
         jdialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         jdialog.add(new JLabel("Autor :"));
         jComboBox = new JComboBox();
         banco.getAutors().forEach(x -> jComboBox.addItem(x.getNome()));
-
         jdialog.add(jComboBox);
         jdialog.add(new JLabel("Preço de custo :"));
+        precocusto = new JTextField(10);
         jdialog.add(precocusto);
         jdialog.add(new JLabel("quantidade paginas :"));
+        qtdpag = new JTextField(10);
         jdialog.add(qtdpag);
         jdialog.add(new JLabel("genero :"));
+        genero = new JTextField(10);
         jdialog.add(genero);
         jdialog.add(new JLabel("porcentual :"));
+        porcentual = new JTextField(10);
         jdialog.add(porcentual);
         JButton salvar = new JButton("Salvar");
         JButton sair = new JButton("Sair");
-
 
         salvar.addActionListener(new ActionListener() {
             @Override
@@ -165,19 +173,19 @@ public class CadastroLiteratura extends JPanel {
 
     public void criarLiteratura(String nomeAutor, Double precoCusto, Integer porcentual, Integer qtdpaginas, String genero,
                                 Banco banco, TabelaLivrosLiteratura tabela) {
+        literatura = new Literatura();
+        literatura.setCodigo(banco.getLiteraturas().size() + 1);
+        literatura.setAutor(new Autor(nomeAutor, null));
+        literatura.setGenero(genero);
+        literatura.setQtdPaginas(qtdpaginas);
+        literatura.setPrecoCusto(precoCusto);
+        literatura.calcularTributacao();
 
-        this.literatura.setCodigo(banco.getLiteraturas().size() + 1);
-        this.literatura.setAutor(new Autor(nomeAutor, null));
-        this.literatura.setGenero(genero);
-        this.literatura.setQtdPaginas(qtdpaginas);
-        this.literatura.setPrecoCusto(precoCusto);
-        this.literatura.calcularTributacao();
-
-        this.literatura.setPrecoVenda(
-                (this.literatura.getPrecoCusto() + this.literatura.getTributacao()) +
-                        (porcentual / 100) * (this.literatura.getPrecoCusto() + this.literatura.getTributacao())
+        literatura.setPrecoVenda(
+                (literatura.getPrecoCusto() + literatura.getTributacao()) +
+                        (porcentual / 100) * (literatura.getPrecoCusto() + literatura.getTributacao())
         );
-        banco.setLiteraturas(this.literatura);
+        banco.setLiteraturas(literatura);
         tabela.fireTableDataChanged();
 
     }
