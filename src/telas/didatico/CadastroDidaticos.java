@@ -12,7 +12,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 public class CadastroDidaticos extends JPanel {
 
     private JButton botaoAdd;

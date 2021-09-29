@@ -8,7 +8,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 
 public class CadastroLiteratura extends JPanel {
 

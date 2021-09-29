@@ -11,7 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 
 public class CadastroAutor  extends JPanel {
 

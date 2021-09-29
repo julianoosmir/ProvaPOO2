@@ -1,5 +1,8 @@
 package models;
-
+/*
+Nome: Juliano Cesar Osmir Hein RA: 339112013098
+Curso: Ciência da Computação Data: 29/09/2021
+*/
 abstract class Livro {
     private Integer codigo;
 
